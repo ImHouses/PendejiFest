@@ -2,29 +2,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_user"
-        android:title="Yo"
+        android:title="@string/user_nav"
         />
     <group>
 
 
         <item
             android:id="@+id/nav_date"
-            android:title="Fechas"
+            android:title="@string/date_nav"
             />
 
         <item
             android:id="@+id/nav_events"
-            android:title="Eventos"
+            android:title="@string/events_nav"
             />
         <item
             android:id="@+id/nav_gallery"
-            android:title="Galería"
+            android:title="@string/gallery_nav"
             />
         <item
             android:id="@+id/nav_about"
-            android:title="Acerca de..."
+            android:title="@string/about_nav"
             />
-
 
     </group>
 </menu>

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">PendejiFest</string>
     <string name="date_dev">81020016</string>
+    <string name="user_nav">Me</string>
     <string name="date_nav">Dates</string>
     <string name="events_nav">Events</string>
     <string name="gallery_nav">Gallery</string>
