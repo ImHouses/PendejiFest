@@ -6,4 +6,7 @@
     <string name="events_nav">Events</string>
     <string name="gallery_nav">Gallery</string>
     <string name="about_nav">About...</string>
+    <string name="open_navigation">Open navigation drawer</string>
+    <string name="close_navigation">Close navigation drawer</string>
+    <string name="settings_nav">Settings</string>
 </resources>

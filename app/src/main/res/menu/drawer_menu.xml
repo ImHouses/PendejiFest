@@ -6,7 +6,6 @@
         />
     <group>
 
-
         <item
             android:id="@+id/nav_date"
             android:title="@string/date_nav"
@@ -21,9 +20,12 @@
             android:title="@string/gallery_nav"
             />
         <item
+            android:id="@+id/nav_settings"
+            android:title="@string/settings_nav"
+            />
+        <item
             android:id="@+id/nav_about"
             android:title="@string/about_nav"
             />
-
     </group>
 </menu>

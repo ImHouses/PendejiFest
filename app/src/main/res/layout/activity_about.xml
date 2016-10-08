@@ -8,11 +8,21 @@
     tools:context="mx.unam.ciencias.jcasas.pendejifest.AboutActivity"
     >
 
-    <include
-        layout="@layout/toolbar"
-        android:layout_height="wrap_content"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        />
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_about"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:navigationIcon="@drawable/ic_action_arrow_left"
+            android:title="About"
+            />
+
+    </android.support.design.widget.AppBarLayout>
 
     <TextView
         android:text="TextView"
@@ -31,7 +41,6 @@
         android:id="@+id/imageView"
 
         android:layout_height="180dp"
-        android:layout_below="@+id/include"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="81dp" />
