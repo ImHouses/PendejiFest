@@ -9,18 +9,15 @@ import android.widget.TextView;
 
 public class AboutActivity extends AppCompatActivity {
 
-    TextView tvA;
-    private Toolbar toolbar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
         // Set a Toolbar to replace the ActionBar.
-        toolbar = (Toolbar) findViewById(R.id.toolbar_about);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_about);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_action_arrow_left);
-        tvA = (TextView)findViewById(R.id.textViewAbout);
+        TextView tvA = (TextView)findViewById(R.id.textViewAbout);
         String aboutText = "Pendeji Fest App In Developing\n Release:" +
                 getResources().getString(R.string.date_dev).toString() +
                 " Juan Casas";
