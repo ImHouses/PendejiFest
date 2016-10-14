@@ -1,5 +1,10 @@
 package mx.unam.ciencias.jcasas.party;
 
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOError;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.LinkedList;
 
 /**
@@ -12,12 +17,46 @@ import java.util.LinkedList;
 
 public class Event {
 
+    private EventParser parser;
     private LinkedList<Guest> guests;
+    private String name;
+    private String date;
+    private String description;
+    private String addressInfo;
 
-    public Event() {
-        guests = new LinkedList<>();
+    public Event(InputStream is) {
+        parser = new EventParser(is);
+        try {
+            parser.construct();
+        } catch (XmlPullParserException xppe) {
+            xppe.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+        guests = parser.getGuests();
+        name = parser.getEventname();
+        date = parser.getDate();
+        description = parser.getInfo();
+        addressInfo = parser.getAddressInfo();
     }
 
+    public LinkedList<Guest> getGuests() {
+        return guests;
+    }
 
+    public String getName() {
+        return name;
+    }
 
+    public String getDate() {
+        return date;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getAddressInfo() {
+        return addressInfo;
+    }
 }

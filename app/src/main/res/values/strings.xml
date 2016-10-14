@@ -9,4 +9,8 @@
     <string name="open_navigation">Open navigation drawer</string>
     <string name="close_navigation">Close navigation drawer</string>
     <string name="settings_nav">Settings</string>
+    <string name="event_bar">Event</string>
+    <string name="event_name">Event</string>
+    <string name="event_date">Date</string>
+    <string name="event_description">This is a event!</string>
 </resources>

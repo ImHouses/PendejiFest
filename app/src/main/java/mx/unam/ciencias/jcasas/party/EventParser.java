@@ -27,9 +27,9 @@ import java.util.LinkedList;
  *      photo="./photos/guests/id.jpg"/>
  *  </guests>
  *  <address>
- *  <info>
+ *  <addressinfo>
  *      HOW TO GET TO THE SPOT
- *  </info>
+ *  </addressinfo>
  *  </address>
  *  </event>
  */
@@ -45,6 +45,25 @@ public class EventParser {
     private String addressInfo;
     private LinkedList<Guest> guests;
 
+    public String getEventname() {
+        return eventname;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public String getAddressInfo() {
+        return addressInfo;
+    }
+
+    public LinkedList<Guest> getGuests() {
+        return guests;
+    }
 
     public EventParser(InputStream is) {
         try {
@@ -64,38 +83,18 @@ public class EventParser {
         /* Setting the file to xmlParser. */
         xmlParser.setInput(is, null);
         int event = xmlParser.getEventType();
-        String name = "";
-        while (event != XmlPullParser.END_DOCUMENT)
-        {
-            name = xmlParser.getName();
-            switch (event){
+        while (event != XmlPullParser.END_DOCUMENT) {
+            switch (event) {
+                case XmlPullParser.START_DOCUMENT:
+                    break;
                 case XmlPullParser.START_TAG:
-                    if(name.equals("event")){
+                    if (xmlParser.getName().equals("event")) {
                         eventname = xmlParser.getAttributeValue(null,"name");
                         date = xmlParser.getAttributeValue(null,"date");
-                    } else if (name.equals("guests")) {
-                        event = xmlParser.next();
-                        name = xmlParser.getName();
-                        while (name.equals("item")) {
-                            int id = Integer.parseInt(xmlParser.getAttributeValue(null,"id"));
-                            String guestName = xmlParser.getAttributeValue(null,"name");
-                            guests.add(new Guest(guestName,id));
-                            xmlParser.next();
-                            name = xmlParser.getName();
-                        }
-                    } else if (name.equals("address")) {
-                        xmlParser.next();
-                        xmlParser.next();
-                        addressInfo = xmlParser.getText();
-                    }
-                    break;
-                case XmlPullParser.TEXT:
-                    if (name.equals("info")) {
-                        info = xmlParser.getText();
-                    }
-                case XmlPullParser.END_TAG:
+                    } else if (xmlParser.getName().equals("info")) {
 
-                    break;
+                    }
+
             }
             event = xmlParser.next();
         }
