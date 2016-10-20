@@ -53,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/textViewDescription"
-            android:textAlignment="center"
+            android:gravity="center_vertical|left"
             android:text="This is the description of the event! GGGGGGGGGGGGGGGGGGGGGGGGGG"
             android:textSize="18sp"
             />
