@@ -13,4 +13,7 @@
     <string name="event_name">Event</string>
     <string name="event_date">Date</string>
     <string name="event_description">This is a event!</string>
+    <string name="event_directionSign">Spot address: </string>
+    <string name="event_infoSign">Event info</string>
+    <string name="event_directionhowSign">How to get there?</string>
 </resources>

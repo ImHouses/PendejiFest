@@ -33,6 +33,7 @@
     </android.support.design.widget.AppBarLayout>
 
         <TextView
+            android:paddingTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
@@ -42,6 +43,7 @@
             android:textSize="20sp"
             />
         <TextView
+            android:paddingTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textViewDate"
@@ -50,6 +52,15 @@
             android:layout_weight="20"
             />
         <TextView
+            android:paddingTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewAddress"
+            android:text="Direction"
+            android:textSize="18sp"
+            />
+        <TextView
+            android:paddingTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/textViewDescription"
@@ -57,6 +68,13 @@
             android:text="This is the description of the event! GGGGGGGGGGGGGGGGGGGGGGGGGG"
             android:textSize="18sp"
             />
-
+        <TextView
+            android:paddingTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewHintAddress"
+            android:text="CALLE NO. 1 ANDROID 5.1 POR ANDROID STUDIO"
+            android:textSize="18sp"
+            />
     </LinearLayout>
 </ScrollView>

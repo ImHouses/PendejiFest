@@ -3,6 +3,7 @@ package mx.unam.ciencias.jcasas.pendejifest;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -16,6 +17,11 @@ public class SettingsActivity extends AppCompatActivity {
 
         toolbar.setTitle("Settings");
         toolbar.setNavigationIcon(R.drawable.ic_action_arrow_left);
-        toolbar.setNavigationOnClickListener((v -> onBackPressed()));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 }

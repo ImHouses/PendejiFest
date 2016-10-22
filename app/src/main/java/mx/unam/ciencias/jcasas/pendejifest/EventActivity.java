@@ -1,11 +1,13 @@
 package mx.unam.ciencias.jcasas.pendejifest;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.TextView;
 
 import java.net.URL;
@@ -22,8 +24,33 @@ public class EventActivity extends AppCompatActivity {
         setContentView(R.layout.activity_event);
         toolbar = (Toolbar) findViewById(R.id.toolbar_event);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener((o) -> onBackPressed());
-        new FetchEventTask().execute("E");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+        Intent intent = getIntent();
+        String name = intent.getStringExtra("event_name");
+        String date = intent.getStringExtra("event_date");
+        String description = intent.getStringExtra("event_description");
+        String address = intent.getStringExtra("event_address");
+        String addressHint = intent.getStringExtra("event_addresshint");
+        toolbar.setTitle(name);
+        TextView tvname = (TextView) findViewById(R.id.textViewEventName);
+        TextView tvdate = (TextView) findViewById(R.id.textViewDate);
+        TextView tvdescription = (TextView) findViewById(R.id.textViewDescription);
+        TextView tvAddress = (TextView) findViewById(R.id.textViewAddress);
+        TextView tvAddressHint = (TextView) findViewById(R.id.textViewHintAddress);
+        tvname.setText(name);
+        tvdate.setText(date);
+        tvdescription.setText(getResources().getText(R.string.event_infoSign).toString() +
+                "\n" + description);
+        tvAddress.setText(getResources().getText(R.string.event_directionSign).toString() +"\n" +
+                address);
+        tvAddressHint.setText(getResources().getText(R.string.event_directionhowSign).toString() +
+                "\n" + addressHint);
+        //new FetchEventTask().execute("E");
 
     }
 

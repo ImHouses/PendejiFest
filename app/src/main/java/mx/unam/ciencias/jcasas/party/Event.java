@@ -25,7 +25,7 @@ public class Event {
     private class EventParser {
         /**
          * Created by jcasas on 13/10/16.
-         * Protected class {@link mx.unam.ciencias.jcasas.party.EventParser} for reading XML files related to an event.
+         * Protected class {@link EventParser} for reading XML files related to an event.
          * The XML Event files are like this
          *
          * <event name="EVENT NAME" date="DATE">
@@ -110,10 +110,8 @@ public class Event {
                         if (xmlParser.getName().equals("event")) {
                             eventname = xmlParser.getAttributeValue(null, "name");
                             date = xmlParser.getAttributeValue(null, "date");
-                        } else if (xmlParser.getName().equals("guests")) {
-                            invite(xmlParser);
                         } else if (xmlParser.getName().equals("address")) {
-                            this.address = xmlParser.getAttributeValue(null,"value");
+                            address = xmlParser.getAttributeValue(null,"value");
                         } else if (TAG_NAME.equals("info")) {
                             xmlParser.next();
                             info = xmlParser.getText();
@@ -177,6 +175,7 @@ public class Event {
     private String date;
     private String description;
     private String addressInfo;
+    private String address;
 
     public Event(InputStream is) {
         parser = new EventParser(is);
@@ -192,6 +191,14 @@ public class Event {
         date = parser.getDate();
         description = parser.getInfo();
         addressInfo = parser.getAddressInfo();
+        address = parser.getAddress();
+    }
+    public Event(String name, String date, String description, String addressInfo, String address) {
+        this.name = name;
+        this.date = date;
+        this.description = description;
+        this.addressInfo = addressInfo;
+        this.address = address;
     }
 
     public LinkedList<Guest> getGuests() {
@@ -210,7 +217,19 @@ public class Event {
         return description;
     }
 
+    /**
+     * Return hints of the address.
+     * @return addressinfo
+     */
     public String getAddressInfo() {
         return addressInfo;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String toString() {
+        return name +" " + date + " " + address;
     }
 }
