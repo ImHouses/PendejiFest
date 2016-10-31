@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "398203776365",
+    "firebase_url": "https://happening-93473.firebaseio.com",
+    "project_id": "happening-93473",
+    "storage_bucket": "happening-93473.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:398203776365:android:6111a7ae127d8540",
+        "android_client_info": {
+          "package_name": "mx.unam.ciencias.jcasas.pendejifest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "398203776365-6i4u6it2mo8660rbe3bbpd24lou3qnbd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "mx.unam.ciencias.jcasas.pendejifest",
+            "certificate_hash": "3D1088D8A65FAD586E044C869A13EB8AD8B217B9"
+          }
+        },
+        {
+          "client_id": "398203776365-i3ffpo2c3a3fgtmf7hlsi6n9jsel55of.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_eqTP-es9oDZ-fMaxs-db1uFg8En0bK4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "398203776365-i3ffpo2c3a3fgtmf7hlsi6n9jsel55of.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

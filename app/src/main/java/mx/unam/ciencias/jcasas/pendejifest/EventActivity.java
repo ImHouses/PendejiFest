@@ -17,11 +17,27 @@ public class EventActivity extends AppCompatActivity {
 
     ProgressDialog progress;
     Toolbar toolbar;
+    TextView tvName;
+    TextView tvDate;
+    TextView tvDescription;
+    TextView tvAddress;
+    TextView tvAddressHint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
+        progress = new ProgressDialog(this);
+        progress.setMessage("Loading event.");
+        progress.show();
+        buildUI();
+        progress.dismiss();
+    }
+
+    /**
+     * Build all the activity's elements.
+     */
+    private void buildUI() {
         toolbar = (Toolbar) findViewById(R.id.toolbar_event);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -37,63 +53,18 @@ public class EventActivity extends AppCompatActivity {
         String address = intent.getStringExtra("event_address");
         String addressHint = intent.getStringExtra("event_addresshint");
         toolbar.setTitle(name);
-        TextView tvname = (TextView) findViewById(R.id.textViewEventName);
-        TextView tvdate = (TextView) findViewById(R.id.textViewDate);
-        TextView tvdescription = (TextView) findViewById(R.id.textViewDescription);
-        TextView tvAddress = (TextView) findViewById(R.id.textViewAddress);
-        TextView tvAddressHint = (TextView) findViewById(R.id.textViewHintAddress);
-        tvname.setText(name);
-        tvdate.setText(date);
-        tvdescription.setText(getResources().getText(R.string.event_infoSign).toString() +
+        tvName = (TextView) findViewById(R.id.textViewEventName);
+        tvDate = (TextView) findViewById(R.id.textViewDate);
+        tvDescription = (TextView) findViewById(R.id.textViewDescription);
+        tvAddress = (TextView) findViewById(R.id.textViewAddress);
+        tvAddressHint = (TextView) findViewById(R.id.textViewHintAddress);
+        tvName.setText(name);
+        tvDate.setText(date);
+        tvDescription.setText(getResources().getText(R.string.event_infoSign).toString() +
                 "\n" + description);
         tvAddress.setText(getResources().getText(R.string.event_directionSign).toString() +"\n" +
                 address);
         tvAddressHint.setText(getResources().getText(R.string.event_directionhowSign).toString() +
                 "\n" + addressHint);
-        //new FetchEventTask().execute("E");
-
     }
-
-    private class FetchEventTask extends AsyncTask<String,Integer,Event> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progress = new ProgressDialog(EventActivity.this);
-            progress.setMessage("Loading Event...");
-            progress.show();
-        }
-
-        @Override
-        protected Event doInBackground(String... params) {
-            Event ev = null;
-            try {
-                URL url = new URL("https://raw.githubusercontent.com/ImHouses/ImHouses.github.io/master/resources/PendejifestAPP/EVENTS/birthday18/event.xml");
-                Event event = new Event(url.openStream());
-                ev = event;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return ev;
-        }
-
-        @Override
-        protected void onPostExecute(Event event) {
-            super.onPostExecute(event);
-            if (event == null) {
-                progress.dismiss();
-
-            } else {
-                TextView tvname = (TextView) findViewById(R.id.textViewEventName);
-                TextView tvdate = (TextView) findViewById(R.id.textViewDate);
-                TextView tvdescription = (TextView) findViewById(R.id.textViewDescription);
-                tvname.setText(event.getName());
-                tvdate.setText(event.getDate());
-                tvdescription.setText(event.getDescription());
-                toolbar.setTitle(event.getName());
-                progress.dismiss();
-            }
-        }
-    }
-
 }

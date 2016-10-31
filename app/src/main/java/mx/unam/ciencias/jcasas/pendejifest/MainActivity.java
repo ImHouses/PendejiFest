@@ -4,10 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -28,7 +25,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -41,8 +37,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.net.URL;
 import java.util.ArrayList;
 
 import mx.unam.ciencias.jcasas.party.Event;
@@ -60,6 +54,7 @@ public class MainActivity extends AppCompatActivity
     private static final String STRING_TAG = "Log: ";
     private static String FIREBASE_URL="https://happening-93473.firebaseio.com/";
     FirebaseDatabase firebasedb;
+    ArrayAdapter<Event> eventsAdapter;
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -72,10 +67,15 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //new MainActivity.GetEventTask().execute("E");
+        progress = new ProgressDialog(this);
+        progress.setTitle("Loading");
+        progress.setMessage("Loading your events.");
+        progress.show();
         events = new ArrayList<>();
         firebasedb = FirebaseDatabase.getInstance();
         DatabaseReference reference = firebasedb.getReference("events");
+        list = (ListView) findViewById(R.id.list_main);
+        eventsAdapter = new EventsAdapter(getApplicationContext(),events);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -95,8 +95,8 @@ public class MainActivity extends AppCompatActivity
                     Log.i(STRING_TAG,name+date+address+description+addressinfo);
                     events.add(new Event(name,date,description,addressinfo,address));
                 }
-                ArrayAdapter<Event> eventsAdapter = new EventsAdapter(getApplicationContext(),events);
-                list = (ListView) findViewById(R.id.list_main);
+                ArrayAdapter<Event> eventsAdapter = new EventsAdapter(getApplicationContext(),
+                        events);
                 list.setAdapter(eventsAdapter);
             }
 
@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
         buildUI();
+        progress.dismiss();
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -138,11 +139,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+        if (drawer.isDrawerOpen(GravityCompat.START)) drawer.closeDrawer(GravityCompat.START);
+        else super.onBackPressed();
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -157,8 +155,7 @@ public class MainActivity extends AppCompatActivity
             Intent i = new Intent(this,SettingsActivity.class);
             startActivity(i);
         } else if (id == R.id.nav_events) {
-            Intent i = new Intent(this,EventActivity.class);
-            startActivity(i);
+            makeSnackbar("Soon my son!");
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

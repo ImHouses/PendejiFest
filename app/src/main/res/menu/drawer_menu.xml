@@ -2,25 +2,30 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_user"
+        android:icon="@drawable/ic_user"
         android:title="@string/user_nav"
         />
-    <group>
+    <group android:title="App">
 
         <item
             android:id="@+id/nav_date"
+            android:icon="@drawable/ic_dates"
             android:title="@string/date_nav"
             />
 
         <item
             android:id="@+id/nav_events"
+            android:icon="@drawable/ic_events"
             android:title="@string/events_nav"
             />
         <item
             android:id="@+id/nav_gallery"
+            android:icon="@drawable/ic_gallery"
             android:title="@string/gallery_nav"
             />
         <item
             android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings"
             android:title="@string/settings_nav"
             />
         <item

@@ -11,7 +11,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
 
-
 /**
  * Created by jcasas on 13/10/16.
  * @author Juan Casas imhouses@ciencias.unam.mx
@@ -44,7 +43,6 @@ public class Event {
          *      HOW TO GET TO THE SPOT
          *  </addressinfo>
          *  </address>
-         *  </event>
          */
 
 
@@ -168,15 +166,22 @@ public class Event {
             return xml;
         }
     }
-
+    /* The parser of the event. */
     private EventParser parser;
+    /* The guest's list. */
     private LinkedList<Guest> guests;
+    /* Event's name. */
     private String name;
+    /* The date */
     private String date;
+    /* Description & info. */
     private String description;
+    /* Address indications. */
     private String addressInfo;
+    /* Address. */
     private String address;
 
+    /* Constructor with an input. */
     public Event(InputStream is) {
         parser = new EventParser(is);
         try {
@@ -193,6 +198,7 @@ public class Event {
         addressInfo = parser.getAddressInfo();
         address = parser.getAddress();
     }
+    /* Standard constructor. */
     public Event(String name, String date, String description, String addressInfo, String address) {
         this.name = name;
         this.date = date;
@@ -201,18 +207,34 @@ public class Event {
         this.address = address;
     }
 
+    /**
+     * Returns the list of guests.
+     * @return The list of guests.
+     */
     public LinkedList<Guest> getGuests() {
         return guests;
     }
 
+    /**
+     * Getter for the name.
+     * @return The name of the event.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Getter for the date.
+     * @return The date.
+     */
     public String getDate() {
         return date;
     }
 
+    /**
+     * Getter for the description.
+     * @return The description.
+     */
     public String getDescription() {
         return description;
     }
@@ -225,11 +247,23 @@ public class Event {
         return addressInfo;
     }
 
+    /**
+     * Getter for the address.
+     * @return The address.
+     */
     public String getAddress() {
         return address;
     }
 
+    /**
+     * Returns a String representation of the event.
+     * @return A String representation of the event.
+     */
     public String toString() {
-        return name +" " + date + " " + address;
+        return String.format("Name: %s\n" +
+                                "Date: %s\n" +
+                                "Description: %s\n"+
+                                "Address Info: %s\n"+
+                                "Address: %s",name,description,addressInfo,address);
     }
 }

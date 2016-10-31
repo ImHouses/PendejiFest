@@ -71,10 +71,8 @@ public class Guest implements Comparable<Guest> {
      * @return <code>true</code> if the objects are equal, <code>false</code> otherwhise.
      */
     public boolean equals(Guest g) {
-        if (this.id != g.id)
-            return false;
-        if (!this.name.equals(g.name))
-            return false;
+        if (this.id != g.id) return false;
+        if (!this.name.equals(g.name)) return false;
         return true;
     }
 
