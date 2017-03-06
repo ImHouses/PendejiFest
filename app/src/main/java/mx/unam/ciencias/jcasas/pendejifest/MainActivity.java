@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity
     private ListView list;
     private ProgressDialog progress;
     private ArrayList<Event> events;
-    private static final String STRING_TAG = "Log: ";
+    private static final String STRING_TAG = "LOG: ";
     private static String FIREBASE_URL="https://happening-93473.firebaseio.com/";
     FirebaseDatabase firebasedb;
     ArrayAdapter<Event> eventsAdapter;
@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity
                 String description;
                 String address;
                 String addressinfo;
+                events.clear();
                 Iterable<DataSnapshot> eventsData = dataSnapshot.getChildren();
                 for (DataSnapshot ds : eventsData) {
                     Log.i(STRING_TAG,ds.getValue().toString());
@@ -92,11 +93,11 @@ public class MainActivity extends AppCompatActivity
                     address = ds.child("address").getValue(String.class);
                     description = ds.child("info").getValue(String.class);
                     addressinfo = ds.child("addressinfo").getValue(String.class);
-                    Log.i(STRING_TAG,name+date+address+description+addressinfo);
+                    Log.i(STRING_TAG,name + date + address + description + addressinfo);
                     events.add(new Event(name,date,description,addressinfo,address));
                 }
                 ArrayAdapter<Event> eventsAdapter = new EventsAdapter(getApplicationContext(),
-                        events);
+                                                                                        events);
                 list.setAdapter(eventsAdapter);
             }
 
@@ -126,15 +127,12 @@ public class MainActivity extends AppCompatActivity
                 R.string.open_navigation,R.string.close_navigation);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
         navDrawer = (NavigationView) findViewById(R.id.nvView);
         navDrawer.setNavigationItemSelectedListener(this);
-
-
     }
 
     /**
-     * Method for set a custom back action.
+     * Method for set a custom action for the button back.
      */
     @Override
     public void onBackPressed() {
@@ -143,6 +141,11 @@ public class MainActivity extends AppCompatActivity
         else super.onBackPressed();
     }
 
+    /**
+     * Navigation Bar menu drawer.
+     * @param menu The menu resource.
+     * @return <code>true</code> if the
+     */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem menu) {
@@ -238,6 +241,7 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * Private class EventsAdapter for creating a custom adapter for objects of type {@link Event}
+     * and use them in the NavigationDrawer of this activity.
      * Provides one method for inflating the view of each event.
      */
     private class EventsAdapter extends ArrayAdapter<Event> {
@@ -254,15 +258,16 @@ public class MainActivity extends AppCompatActivity
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             final Event event = getItem(position);
-            //e = event;
-            //get the inflater and inflate the XML layout for each item
-            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) mContext.
+                                        getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             View view = inflater.inflate(R.layout.item_event, null);
             TextView eventName = (TextView) view.findViewById(R.id.tvNameEventItem);
             TextView eventDate = (TextView) view.findViewById(R.id.tvDateEventItem);
             eventName.setText(event.getName());
             eventDate.setText(event.getDate());
-            Log.i(STRING_TAG,"This is the event in the adapter: " + event.getName() + event.getDate() + event.getAddress());
+            Log.i(STRING_TAG,"This is the event in the adapter: " + event.getName() +
+                                                                    event.getDate() +
+                                                                    event.getAddress());
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
