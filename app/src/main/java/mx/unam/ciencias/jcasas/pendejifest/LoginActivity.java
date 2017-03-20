@@ -65,10 +65,6 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        SpannableString str =
-                new SpannableString(getString(R.string.signup));
-        str.setSpan(new BackgroundColorSpan(Color.BLUE), 27, str.length(), 0);
-        signupTextView.setText(str);
     }
 
     /**
