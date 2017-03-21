@@ -16,5 +16,11 @@
     <string name="event_directionSign">Spot address: </string>
     <string name="event_infoSign">Event info</string>
     <string name="event_directionhowSign">How to get there?</string>
-    <string name="signup">Don\'t you have an account? <u>Sign up</u></string>
+    <string name="signup_hint">Don\'t you have an account? <u>Sign up</u></string>
+    <string name="signup_title">Please, fill the following fields</string>
+    <string name="signup_email_hint">Enter your Email</string>
+    <string name="signup_password_hint">Enter your password</string>
+    <string name="signup_name_hint">Enter your name</string>
+    <string name="signup_button">Sign up now</string>
+
 </resources>

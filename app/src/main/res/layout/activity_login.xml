@@ -44,7 +44,7 @@
         android:layout_below="@+id/button_log_in"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="28dp"
-        android:text="@string/signup"
+        android:text="@string/signup_hint"
         android:gravity="center_horizontal"
         android:textSize="18dp"
         />

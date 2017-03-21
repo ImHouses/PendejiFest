@@ -126,4 +126,5 @@ public class LoginActivity extends AppCompatActivity {
         return preferences.contains("email") && preferences.contains("pass");
     }
 
+
 }
