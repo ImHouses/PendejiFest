@@ -19,6 +19,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import org.w3c.dom.Text;
 
@@ -84,6 +86,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                                         "Hello! " + name + "\nYou are successfully registered")
                                         .show();
                                 saveOnPreferences(name, email, pass);
+                                updateProfile(firebaseAuth.getCurrentUser());
                                 Intent i = new Intent(SignupActivity.this, MainActivity.class);
                                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(i);
@@ -154,5 +157,14 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         editor.putString("pass", pass);
         editor.putString("name", name);
         editor.apply();
+    }
+
+    private void updateProfile(FirebaseUser user) {
+        if (user != null) {
+            SharedPreferences sp = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
+            UserProfileChangeRequest profileChanges = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(sp.getString("name", "DEFAULT")).build();
+            user.updateProfile(profileChanges);
+        }
     }
 }

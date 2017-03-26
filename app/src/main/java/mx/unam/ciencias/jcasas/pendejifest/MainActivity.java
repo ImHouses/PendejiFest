@@ -32,6 +32,7 @@ import android.widget.TextView;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -127,6 +128,8 @@ public class MainActivity extends AppCompatActivity
         View headerView = navDrawer.getHeaderView(0);
         TextView emailHeader = (TextView)headerView.findViewById(R.id.header_email);
         emailHeader.setText(getUserEmail());
+        TextView nameHeader = (TextView)headerView.findViewById(R.id.header_name);
+        nameHeader.setText(getUserName());
     }
 
     /**
@@ -202,7 +205,7 @@ public class MainActivity extends AppCompatActivity
         super.onStop();
     }
 
-    public String getUserName() {
+    private String getUserName() {
         if (user != null) {
             return user.getDisplayName();
         } else {
@@ -210,12 +213,13 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public String getUserEmail() {
+    private String getUserEmail() {
         if (user != null) {
             return user.getEmail();
         } else {
             return "";
         }
     }
+
 
 }
