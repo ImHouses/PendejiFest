@@ -19,7 +19,7 @@
         />
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/header_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="User"
@@ -28,7 +28,7 @@
         />
 
     <TextView
-        android:id="@+id/email"
+        android:id="@+id/header_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="hi@user.com"

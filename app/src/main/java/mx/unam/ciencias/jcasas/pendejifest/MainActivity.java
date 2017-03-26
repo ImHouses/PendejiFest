@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -29,14 +30,20 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 import mx.unam.ciencias.jcasas.party.Event;
+import mx.unam.ciencias.jcasas.party.User;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -44,26 +51,21 @@ public class MainActivity extends AppCompatActivity
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
     private NavigationView navDrawer;
-    private ActionBarDrawerToggle drawerToggle;
     private ListView list;
     private ProgressDialog progress;
     private ArrayList<Event> events;
     private static final String STRING_TAG = "LOG: ";
     private static String FIREBASE_URL="https://happening-93473.firebaseio.com/";
-    FirebaseDatabase firebasedb;
-    ArrayAdapter<Event> eventsAdapter;
-
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
-
+    private FirebaseDatabase firebasedb;
+    private ArrayAdapter<Event> eventsAdapter;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
         progress = new ProgressDialog(this);
         progress.setTitle("Loading");
         progress.setMessage("Loading your events.");
@@ -122,6 +124,9 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         navDrawer = (NavigationView) findViewById(R.id.nvView);
         navDrawer.setNavigationItemSelectedListener(this);
+        View headerView = navDrawer.getHeaderView(0);
+        TextView emailHeader = (TextView)headerView.findViewById(R.id.header_email);
+        emailHeader.setText(getUserEmail());
     }
 
     /**
@@ -141,34 +146,25 @@ public class MainActivity extends AppCompatActivity
      */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem menu) {
-        int id = menu.getItemId();
-        if (id == R.id.nav_about) {
-            makeSnackbar("Powered by Firebase. <3");
-        } else if (id == R.id.nav_user) {
-            makeSnackbar("There's no user!");
-        } else if (id == R.id.nav_settings) {
-            Intent i = new Intent(this,SettingsActivity.class);
-            startActivity(i);
-        } else if (id == R.id.nav_events) {
-            makeSnackbar("Soon my son!");
+    public boolean onNavigationItemSelected(@NonNull MenuItem menu) {
+        switch(menu.getItemId()) {
+            case R.id.nav_about:
+                makeSnackbar("Powered by Firebase. <3");
+                break;
+            case R.id.nav_user:
+                makeSnackbar("There's no user!");
+                break;
+            case R.id.nav_settings:
+                Intent i = new Intent(this,SettingsActivity.class);
+                startActivity(i);
+                break;
+            case R.id.nav_events:
+                makeSnackbar("Soon my son!");
+                break;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    public void selectDrawerItem(MenuItem menuItem) {
-        // Create a new fragment and specify the fragment to show based on nav item clicked
-        Fragment fragment = null;
-        Class fragmentClass;
-
-
-        // Highlight the selected item has been done by NavigationView
-        menuItem.setChecked(true);
-
-        // Close the navigation drawer
-        drawerLayout.closeDrawers();
     }
 
     /**
@@ -206,48 +202,20 @@ public class MainActivity extends AppCompatActivity
         super.onStop();
     }
 
-    /**
-     * Private class EventsAdapter for creating a custom adapter for objects of type {@link Event}
-     * and use them in the NavigationDrawer of this activity.
-     * Provides one method for inflating the view of each event.
-     */
-    private class EventsAdapter extends ArrayAdapter<Event> {
-
-        private Context mContext;
-
-        public EventsAdapter(Context context, ArrayList<Event> events) {
-            super(context,0,events);
-            mContext = context;
-            Event e;
-        }
-
-        @NonNull
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            final Event event = getItem(position);
-            LayoutInflater inflater = (LayoutInflater) mContext.
-                                        getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            View view = inflater.inflate(R.layout.item_event, null);
-            TextView eventName = (TextView) view.findViewById(R.id.tvNameEventItem);
-            TextView eventDate = (TextView) view.findViewById(R.id.tvDateEventItem);
-            eventName.setText(event.getName());
-            eventDate.setText(event.getDate());
-            Log.i(STRING_TAG,"This is the event in the adapter: " + event.getName() +
-                                                                    event.getDate() +
-                                                                    event.getAddress());
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent i = new Intent(mContext,EventActivity.class);
-                    i.putExtra("event_name",event.getName());
-                    i.putExtra("event_date", event.getDate());
-                    i.putExtra("event_description",event.getDescription());
-                    i.putExtra("event_address",event.getAddress());
-                    i.putExtra("event_addresshint",event.getAddressInfo());
-                    startActivity(i);
-                }
-            });
-            return view;
+    public String getUserName() {
+        if (user != null) {
+            return user.getDisplayName();
+        } else {
+            return "";
         }
     }
+
+    public String getUserEmail() {
+        if (user != null) {
+            return user.getEmail();
+        } else {
+            return "";
+        }
+    }
+
 }

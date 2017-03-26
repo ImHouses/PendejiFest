@@ -81,8 +81,9 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                             if (task.isSuccessful()) {
                                 progressDialog.dismiss();
                                 makeAlert("Registered",
-                                        "Hello! " + name + "\nYou are successfully registered").show();
-                                saveOnPreferences(email, pass);
+                                        "Hello! " + name + "\nYou are successfully registered")
+                                        .show();
+                                saveOnPreferences(name, email, pass);
                                 Intent i = new Intent(SignupActivity.this, MainActivity.class);
                                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(i);
@@ -108,6 +109,11 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                 && isValidPass(pass));
     }
 
+    /**
+     * Indicates if the password given is correct.
+     * @param pass The string that contains the password.
+     * @return <code>true</code> if the password is correct, <code>false</code> in other case.
+     */
     public boolean isValidPass(String pass) {
         if (pass.length() < 6) {
             Toast.makeText(SignupActivity.this,
@@ -117,6 +123,11 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         } else return true;
     }
 
+    /**
+     *
+     * @param email
+     * @return
+     */
     public boolean isValidEmail(String email) {
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             Toast.makeText(SignupActivity.this,
@@ -135,12 +146,13 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     /**
-     * Save preferences.
+     * Save the preferences.
      */
-    private void saveOnPreferences(String email, String pass) {
+    private void saveOnPreferences(String name, String email, String pass) {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("email", email);
         editor.putString("pass", pass);
+        editor.putString("name", name);
         editor.apply();
     }
 }

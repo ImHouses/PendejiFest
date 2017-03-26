@@ -6,4 +6,5 @@
     <color name="colorCardViewBackground">#E0E0E0</color>
     <color name="colorButtonOK">#4CAF50</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBlue">#FF117ECC</color>
 </resources>

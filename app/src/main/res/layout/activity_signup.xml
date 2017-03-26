@@ -28,10 +28,11 @@
         android:inputType="textPersonName"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="80dp"
-        android:layout_marginBottom="21dp"
-        android:layout_above="@+id/editTextEmail"
+        android:layout_marginTop="73dp"
+        android:layout_below="@+id/textView"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        />
 
     <TextView
         android:layout_width="wrap_content"
@@ -52,10 +53,10 @@
         android:inputType="textPassword"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="177dp"
-        android:layout_below="@+id/editTextNameSignup"
-        android:layout_toLeftOf="@+id/textView4"
-        android:layout_toStartOf="@+id/textView4"
-        android:layout_marginTop="56dp" />
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/textView4"
+        android:layout_alignLeft="@+id/editTextEmail"
+        android:layout_alignStart="@+id/editTextEmail" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -84,27 +85,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="textEmailAddress"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="273dp"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/editTextNameSignup"
+        android:layout_toLeftOf="@+id/textView4"
+        android:layout_marginTop="33dp"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="181dp" />
+        android:layout_alignParentStart="true" />
 
     <Button
         android:id="@+id/buttonSignup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="27dp"
         android:text="@string/signup_button"
+        android:theme="@style/AppTheme.ButtonOK"
+        android:layout_below="@+id/editTextPass"
         android:layout_alignLeft="@+id/textView"
         android:layout_alignStart="@+id/textView"
-        android:layout_alignRight="@+id/textView"
-        android:layout_alignEnd="@+id/textView"
-        android:theme="@style/AppTheme.ButtonOK"
-        />
+        android:layout_marginTop="43dp"
+        android:layout_alignRight="@+id/textView3"
+        android:layout_alignEnd="@+id/textView3" />
 
 
 </RelativeLayout>
