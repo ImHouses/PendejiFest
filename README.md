@@ -15,4 +15,4 @@ App for managing social events.
 
 # Acknowledgments
 This app uses __Firebase__  for back end. ❤️
-[alt text](https://firebase.google.com/_static/images/firebase/touchicon-180.png "Firebase by Google")
+![alt text](https://firebase.google.com/_static/images/firebase/touchicon-180.png "Firebase by Google")
