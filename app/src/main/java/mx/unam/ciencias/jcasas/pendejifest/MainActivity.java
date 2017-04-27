@@ -30,6 +30,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -152,7 +153,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem menu) {
         switch(menu.getItemId()) {
             case R.id.nav_about:
-                makeSnackbar("Powered by Firebase. <3");
+                makeAboutDialog();
                 break;
             case R.id.nav_user:
                 makeSnackbar("There's no user!");
@@ -163,6 +164,9 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_events:
                 makeSnackbar("Soon my son!");
+                break;
+            case R.id.nav_signout:
+                signOut();
                 break;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -178,6 +182,14 @@ public class MainActivity extends AppCompatActivity
         Snackbar.make(this.drawerLayout, message, Snackbar.LENGTH_SHORT).show();
     }
 
+    /**
+     * Auxiliar method for creating Alert Dialogs.
+     * @param
+     */
+    private void makeAboutDialog() {
+
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -189,6 +201,8 @@ public class MainActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+
+
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
@@ -205,20 +219,25 @@ public class MainActivity extends AppCompatActivity
         super.onStop();
     }
 
-    private String getUserName() {
-        if (user != null) {
-            return user.getDisplayName();
-        } else {
-            return "";
-        }
-    }
+    private String getUserName() { return (user != null) ? user.getDisplayName() : null; }
 
     private String getUserEmail() {
-        if (user != null) {
-            return user.getEmail();
-        } else {
-            return "";
-        }
+        return user.getEmail() != null ? user.getEmail() : null;
+    }
+
+    /**
+     * Auxiliar method for sign out the current user, it deletes the {@link SharedPreferences}
+     * user preferences and signs out from FirebaseAuth.
+     */
+    private void signOut() {
+        FirebaseAuth.getInstance().signOut();
+        SharedPreferences.Editor editor
+                = getSharedPreferences("Preferences", Context.MODE_PRIVATE).edit();
+        editor.remove("email");
+        editor.remove("pass");
+        editor.apply();
+        startActivity(new Intent(this, LoginActivity.class)
+                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
 
 

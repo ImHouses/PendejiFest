@@ -32,5 +32,8 @@
             android:id="@+id/nav_about"
             android:title="@string/about_nav"
             />
+        <item
+            android:id="@+id/nav_signout"
+            android:title="@string/signout_nav"/>
     </group>
 </menu>
