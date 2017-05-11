@@ -1,9 +1,10 @@
-package mx.unam.ciencias.jcasas.pendejifest;
+package mx.unam.ciencias.jcasas.pendejifest.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -21,8 +22,15 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
+import java.util.Random;
+
+import mx.unam.ciencias.jcasas.pendejifest.R;
 
 public class SignupActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -36,6 +44,8 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     private String email;
     private String pass;
     private String name;
+    private String photoUrl;
+    private String userUid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +77,6 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
     /**
      * Method for registering the user.
-     *
      */
     public void register() {
         name = etName.getText().toString();
@@ -77,38 +86,102 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
             progressDialog.setMessage("Registering...");
             progressDialog.show();
             firebaseAuth.createUserWithEmailAndPassword(email, pass)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                progressDialog.dismiss();
-                                makeAlert("Registered",
-                                        "Hello! " + name + "\nYou are successfully registered")
-                                        .show();
-                                saveOnPreferences(name, email, pass);
-                                updateProfile(firebaseAuth.getCurrentUser());
-                                Intent i = new Intent(SignupActivity.this, MainActivity.class);
-                                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(i);
-                            } else {
-                                progressDialog.dismiss();
-                                makeAlert("ERROR", "There was an error with, try again").show();
-                            }
-                        }
-                    });
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        progressDialog.dismiss();
+                        //UPLOAD THE PHOTO.
+                        userUid = firebaseAuth.getCurrentUser().getUid();
+                        pushUser();
+                        pushUserCode();
+                        getPhotoUrl();
+                        saveOnPreferences(name, email, pass, photoUrl);
+                        updateProfile(firebaseAuth.getCurrentUser());
+                        Intent i = new Intent(SignupActivity.this, MainActivity.class);
+                        startActivity(i);
+                        finish();
+                    } else {
+                        progressDialog.dismiss();
+                        makeAlert("ERROR", "There was an error with, try again").show();
+                    }
+                }
+            });
         }
+    }
+    /**
+     * Generates and pushes the new user code for adding friends.
+     */
+    private void pushUserCode() {
+        final DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        final Random r = new Random();
+        reference.getRoot().child("users_codes").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                char[] a = firebaseAuth.getCurrentUser().getUid().toCharArray();
+                while (true) {
+                    String code = "";
+                    for (int i = 0; i < 5; i++)
+                        code += a[i];
+                    code += new Integer(r.nextInt()).toString();
+                    if (!dataSnapshot.hasChild(code)) {
+                        reference.child("users_codes").child(code).setValue(userUid);
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 
     /**
+     * Pushes the user in the FirebaseDatabase
+     */
+    private void pushUser() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        reference.getRoot().child("users").child(userUid).child("email").setValue(email);
+        reference.getRoot().child("users").child(userUid).child("name").setValue(name);
+        if (photoUrl != null)
+            reference.getRoot().child("users").child(userUid).child("photo_url").setValue(photoUrl);
+    }
+
+    /**
+     * Gets the photo URL of the current user, <code>null</code> will be the photo URL
+     * in case the user does not have a photo.
+     */
+    private void getPhotoUrl() {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference reference = firebaseDatabase.getReference();
+        reference.getRoot().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                photoUrl = dataSnapshot
+                        .child(userUid)
+                        .child("photo_url").getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+    }
+
+
+    /**
      * Checks if the credentials are valid
-     * @param email The email
-     * @param pass The password
+     * @param email The email to check.
+     * @param pass The password to check.
      * @return <code>true</code> if the email and the password are valid credentials.
      */
     public boolean validCredentials(String email, String pass) {
         return (!TextUtils.isEmpty(email)
                 && !TextUtils.isEmpty(email)
-                && Patterns.EMAIL_ADDRESS.matcher(email).matches()
+                && isValidEmail(email)
                 && isValidPass(pass));
     }
 
@@ -127,7 +200,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     /**
-     *
+     * Checks whether the email is valid or not.
      * @param email
      * @return
      */
@@ -151,11 +224,14 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     /**
      * Save the preferences.
      */
-    private void saveOnPreferences(String name, String email, String pass) {
+    private void saveOnPreferences(String name, String email, String pass, String photoUrl) {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("email", email);
         editor.putString("pass", pass);
         editor.putString("name", name);
+        if (photoUrl == null)
+            editor.putString("photoUrl", "");
+        else editor.putString("photoUrl", photoUrl);
         editor.apply();
     }
 

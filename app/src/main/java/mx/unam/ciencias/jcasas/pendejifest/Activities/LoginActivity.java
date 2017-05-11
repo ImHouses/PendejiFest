@@ -1,4 +1,4 @@
-package mx.unam.ciencias.jcasas.pendejifest;
+package mx.unam.ciencias.jcasas.pendejifest.Activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +19,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import mx.unam.ciencias.jcasas.pendejifest.R;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -37,12 +44,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
         firebaseAuth = FirebaseAuth.getInstance();
         preferences = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
-        if (firebaseAuth.getCurrentUser() != null
-                && preferences.contains("email")
-                && preferences.contains("pass")) {
-            finish();
-            toMain();
-        }
         buildUI();
     }
 

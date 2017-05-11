@@ -1,9 +1,11 @@
-package mx.unam.ciencias.jcasas.pendejifest;
+package mx.unam.ciencias.jcasas.pendejifest.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+
+import mx.unam.ciencias.jcasas.pendejifest.R;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
 

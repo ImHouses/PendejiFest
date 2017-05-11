@@ -2,6 +2,7 @@
     <string name="app_name">PendejiFest</string>
     <string name="date_dev">81020016</string>
     <string name="user_nav">Me</string>
+    <string name="add_friend_nav">Add friend</string>
     <string name="date_nav">Dates</string>
     <string name="events_nav">Events</string>
     <string name="gallery_nav">Gallery</string>
@@ -23,5 +24,18 @@
     <string name="signup_password_hint">Enter your password</string>
     <string name="signup_name_hint">Enter your name</string>
     <string name="signup_button">Sign up now</string>
+
+    <!-- Various strings -->
+    <string name="dialog_negative_std">Cancel</string>
+    <!-- Error strings -->
+    <string name="error_title">Ups!</string>
+    <string name="friend_register_error">There has been an error trying to match with your buddy.</string>
+    <!-- Friend code dialog -->
+    <string name="friend_code_dialog_title">Enter code</string>
+    <string name="friend_code_dialog_message">Type the code your friend gave to you</string>
+    <string name="friend_code_dialog_positve">Add friend</string>
+    <!-- New event activity -->
+    <string name="new_event_edit">Name of your event...</string>
+    <string name="new_event_title">New event</string>
 
 </resources>

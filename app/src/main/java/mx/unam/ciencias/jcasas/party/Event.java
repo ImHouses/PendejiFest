@@ -9,6 +9,7 @@ import java.io.IOError;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Date;
 import java.util.LinkedList;
 
 /**
@@ -20,12 +21,13 @@ import java.util.LinkedList;
  */
 
 public class Event {
+
     /* The guest's list. */
     private LinkedList<Guest> guests;
     /* Event's name. */
     private String name;
     /* The date */
-    private String date;
+    private Date date;
     /* Description & info. */
     private String description;
     /* Address indications. */
@@ -34,9 +36,9 @@ public class Event {
     private String address;
 
     /* Standard constructor. */
-    public Event(String name, String date, String description, String addressInfo, String address) {
+    public Event(String name, long date, String description, String addressInfo, String address) {
         this.name = name;
-        this.date = date;
+        this.date = new Date(date);
         this.description = description;
         this.addressInfo = addressInfo;
         this.address = address;
@@ -60,7 +62,7 @@ public class Event {
      * Getter for the date.
      * @return The date.
      */
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 

@@ -24,6 +24,11 @@
             android:title="@string/gallery_nav"
             />
         <item
+            android:id="@+id/nav_add_friend"
+            android:icon="@drawable/ic_add_friend"
+            android:title="@string/add_friend_nav"
+            />
+        <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings"
             android:title="@string/settings_nav"

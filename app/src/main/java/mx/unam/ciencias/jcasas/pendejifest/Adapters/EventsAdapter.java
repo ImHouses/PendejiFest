@@ -1,4 +1,4 @@
-package mx.unam.ciencias.jcasas.pendejifest;
+package mx.unam.ciencias.jcasas.pendejifest.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,14 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 import mx.unam.ciencias.jcasas.party.Event;
+import mx.unam.ciencias.jcasas.pendejifest.Activities.EventActivity;
+import mx.unam.ciencias.jcasas.pendejifest.R;
 
 /**Protected class EventsAdapter {
  * Private class EventsAdapter for creating a custom adapter for objects of type {@link Event}
@@ -41,7 +40,7 @@ public class EventsAdapter extends ArrayAdapter<Event> {
         TextView eventName = (TextView) view.findViewById(R.id.tvNameEventItem);
         TextView eventDate = (TextView) view.findViewById(R.id.tvDateEventItem);
         eventName.setText(event.getName());
-        eventDate.setText(event.getDate());
+        eventDate.setText(event.getDate().toString());
         TextView eventInfo = (TextView) view.findViewById(R.id.tvEventinfo);
         eventInfo.setOnClickListener(new View.OnClickListener() {
             @Override

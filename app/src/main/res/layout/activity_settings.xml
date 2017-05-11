@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
 
-    tools:context="mx.unam.ciencias.jcasas.pendejifest.SettingsActivity">
+    tools:context="mx.unam.ciencias.jcasas.pendejifest.Activities.SettingsActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

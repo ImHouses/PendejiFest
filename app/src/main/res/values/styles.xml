@@ -7,12 +7,16 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.ButtonOK" parent="Widget.AppCompat.Button.Colored">
         <item name="colorButtonNormal">@color/colorButtonOK</item>
         <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
+    <style name="FloatingButton" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/colorButtonOK</item>
     </style>
 
 </resources>

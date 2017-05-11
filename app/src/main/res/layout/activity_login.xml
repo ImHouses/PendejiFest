@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="mx.unam.ciencias.jcasas.pendejifest.LoginActivity">
+    tools:context="mx.unam.ciencias.jcasas.pendejifest.Activities.LoginActivity">
 
     <EditText
         android:id="@+id/edit_text_mail"
@@ -51,13 +51,10 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@mipmap/app_icon"
-        android:layout_marginTop="97dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        app:srcCompat="@drawable/pint"
+        android:layout_marginTop="66dp"
         android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/edit_text_mail"
-        android:layout_alignStart="@+id/edit_text_mail"
-        android:layout_alignRight="@+id/edit_text_mail"
-        android:layout_alignEnd="@+id/edit_text_mail" />
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

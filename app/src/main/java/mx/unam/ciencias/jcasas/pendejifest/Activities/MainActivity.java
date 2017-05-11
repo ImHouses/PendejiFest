@@ -1,56 +1,46 @@
-package mx.unam.ciencias.jcasas.pendejifest;
+package mx.unam.ciencias.jcasas.pendejifest.Activities;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-
 import mx.unam.ciencias.jcasas.party.Event;
-import mx.unam.ciencias.jcasas.party.User;
+import mx.unam.ciencias.jcasas.pendejifest.Adapters.EventsAdapter;
+import mx.unam.ciencias.jcasas.pendejifest.R;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private DrawerLayout drawerLayout;
+    private FloatingActionButton addEventsButton;
     private Toolbar toolbar;
     private NavigationView navDrawer;
     private ListView list;
@@ -68,47 +58,13 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
-        progress = new ProgressDialog(this);
-        progress.setTitle("Loading");
-        progress.setMessage("Loading your events.");
-        progress.show();
-        events = new ArrayList<>();
         firebasedb = FirebaseDatabase.getInstance();
+        events = new ArrayList<>();
         DatabaseReference reference = firebasedb.getReference("events");
         list = (ListView) findViewById(R.id.list_main);
         eventsAdapter = new EventsAdapter(getApplicationContext(),events);
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String name;
-                String date;
-                String description;
-                String address;
-                String addressinfo;
-                events.clear();
-                Iterable<DataSnapshot> eventsData = dataSnapshot.getChildren();
-                for (DataSnapshot ds : eventsData) {
-                    Log.i(STRING_TAG,ds.getValue().toString());
-                    name = ds.child("name").getValue(String.class);
-                    date = ds.child("date").getValue(String.class);
-                    address = ds.child("address").getValue(String.class);
-                    description = ds.child("info").getValue(String.class);
-                    addressinfo = ds.child("addressinfo").getValue(String.class);
-                    Log.i(STRING_TAG,name + date + address + description + addressinfo);
-                    events.add(new Event(name,date,description,addressinfo,address));
-                }
-                ArrayAdapter<Event> eventsAdapter = new EventsAdapter(getApplicationContext(),
-                                                                                        events);
-                list.setAdapter(eventsAdapter);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        reference.getRoot().child("events");
         buildUI();
-        progress.dismiss();
     }
 
     /**
@@ -131,6 +87,8 @@ public class MainActivity extends AppCompatActivity
         emailHeader.setText(getUserEmail());
         TextView nameHeader = (TextView)headerView.findViewById(R.id.header_name);
         nameHeader.setText(getUserName());
+        addEventsButton = (FloatingActionButton) findViewById(R.id.buttonAddEvent);
+        addEventsButton.setOnClickListener(this);
     }
 
     /**
@@ -165,6 +123,11 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_events:
                 makeSnackbar("Soon my son!");
                 break;
+            case R.id.nav_add_friend:
+                String t = getResources().getString(R.string.friend_code_dialog_title);
+                String m = getResources().getString(R.string.friend_code_dialog_message);
+                makeFriendCodeDialog(t, m).show();
+                break;
             case R.id.nav_signout:
                 signOut();
                 break;
@@ -172,6 +135,84 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    /**
+     * Register a new friend in the {@link FirebaseDatabase}.
+     * @param code The code of the friend to register.
+     */
+    private void addFriend(String code) {
+        final DatabaseReference reference = firebasedb.getReference().getRoot();
+        final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        reference.child("users_codes").child(code).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String myUid = mAuth.getCurrentUser().getUid();
+                String friendUid = (String) dataSnapshot.getValue();
+                reference.getRoot().child("friends").child(friendUid).child(myUid).setValue(myUid);
+                reference.getRoot().child("friends").child(myUid).child(friendUid).setValue(friendUid);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                String title = getResources().getString(R.string.error_title);
+                String message = getResources().getString(R.string.friend_register_error);
+                makeAlertWithNeutralButton(title, message);
+            }
+        });
+    }
+
+    /**
+     * Make an {@link android.support.v7.app.AlertDialog} with the input of the friend code and
+     * returns it.
+     * @param title The title of the alert.
+     * @param message The message of the alert.
+     */
+    private AlertDialog makeFriendCodeDialog(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        final EditText input = new EditText(MainActivity.this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        input.setLayoutParams(lp);
+        builder.setView(input);
+        String positveText = getResources().getString(R.string.friend_code_dialog_positve);
+        String negativeText = getResources().getString(R.string.dialog_negative_std);
+        builder.setPositiveButton(positveText, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                addFriend(input.getText().toString());
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton(negativeText, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        return builder.create();
+    }
+
+    /**
+     * Make an {@link android.support.v7.app.AlertDialog} and returns it.
+     * @param title The title of the alert.
+     * @param message The message of the alert.
+     * @return The AlertDialog created.
+     */
+    private AlertDialog makeAlertWithNeutralButton(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(title);
+        builder.setMessage(message);
+        builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        return builder.create();
     }
 
     /**
@@ -241,4 +282,12 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.buttonAddEvent:
+                startActivity(new Intent(this, NewEventActivity.class));
+                break;
+        }
+    }
 }
