@@ -22,7 +22,7 @@ public class SplashScreen extends AppCompatActivity {
                 try {
                     sleep(900);
                     if (FirebaseAuth.getInstance().getCurrentUser() != null
-                            && getSharedPreferences("Preferences", Context.MODE_PRIVATE).contains("user")
+                            && getSharedPreferences("Preferences", Context.MODE_PRIVATE).contains("email")
                             && getSharedPreferences("Preferences", Context.MODE_APPEND).contains("pass"))  {
                         startActivity(new Intent(SplashScreen.this, MainActivity.class));
                         finish();

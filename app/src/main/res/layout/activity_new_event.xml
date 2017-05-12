@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="mx.unam.ciencias.jcasas.pendejifest.Activities.NewEventActivity"
+    android:background="@color/colorWhite"
     android:orientation="vertical"
     >
     <android.support.v7.widget.Toolbar
@@ -15,33 +16,110 @@
         app:popupTheme="@style/AppTheme.PopupOverlay"
         app:titleTextColor="@color/colorWhite"
         />
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <EditText
             android:id="@+id/editCreateEventName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:hint="@string/new_event_edit"
-            android:layout_marginTop="36dp"
-            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_toLeftOf="@+id/imageView2"
-            android:layout_toStartOf="@+id/imageView2" />
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="36dp"
+            android:layout_toLeftOf="@+id/imageViewNewEventPhoto"
+            android:layout_toStartOf="@+id/imageViewNewEventPhoto"
+            android:hint="@string/new_event_edit"
+            android:inputType="text"
+            android:textSize="20sp" />
 
         <ImageView
+            android:id="@+id/imageViewNewEventPhoto"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_gravity="end"
-            android:src="@drawable/ic_add_photo"
             android:layout_alignBottom="@+id/editCreateEventName"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:id="@+id/imageView2" />
+            android:layout_alignParentRight="true"
+            android:layout_gravity="end"
+            android:src="@drawable/ic_add_photo" />
+
+        <Button
+            android:id="@+id/editNewEventDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/editCreateEventName"
+            android:layout_marginTop="40dp"
+            android:ems="10"
+            android:inputType="date"
+            android:text="@string/new_event_edit_date"
+            android:textSize="18sp"
+            android:theme="@style/AppTheme.ButtonForm"
+            style="?android:borderlessButtonStyle"
+            />
+
+        <Button
+            android:id="@+id/editNewEventTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/editNewEventDate"
+            android:layout_toEndOf="@+id/editNewEventDate"
+            android:layout_toRightOf="@+id/editNewEventDate"
+            android:ems="10"
+            android:inputType="time"
+            android:text="@string/new_event_edit_time"
+            android:textSize="18sp"
+            android:theme="@style/AppTheme.ButtonForm"
+            style="?android:borderlessButtonStyle"
+            />
+
+        <Button
+            android:id="@+id/editNewEventAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/editNewEventDate"
+            android:layout_marginTop="42dp"
+            android:ems="10"
+            android:inputType="textAutoComplete"
+            android:text="@string/new_event_edit_address"
+            android:textSize="18sp"
+            android:theme="@style/AppTheme.ButtonForm"
+            style="?android:borderlessButtonStyle"
+            />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/switchNewEvent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="94dp"
+            android:text="@string/new_event_switch"
+            android:layout_below="@+id/editNewEventAddress"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <EditText
+            android:id="@+id/editNewEventDescription"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="80sp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/editNewEventAddress"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            android:hint="@string/new_event_edit_description"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
     </RelativeLayout>
 
 </LinearLayout>

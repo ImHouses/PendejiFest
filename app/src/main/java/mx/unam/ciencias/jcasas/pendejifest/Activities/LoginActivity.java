@@ -78,8 +78,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      */
     private void toMain() {
         Intent i = new Intent(LoginActivity.this, MainActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
+        finish();
     }
 
     /**
@@ -124,8 +124,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()) {
-                                toMain();
                                 saveOnPreferences(em, ps);
+                                toMain();
                             }
                             else {
                                 makeLocalAlert("There is a problem", "There has been a problem, try again").show();

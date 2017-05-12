@@ -55,10 +55,8 @@ public class EventsAdapter extends ArrayAdapter<Event> {
         Intent i = new Intent(mContext,EventActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         i.putExtra("event_name",event.getName());
-        i.putExtra("event_date", event.getDate());
         i.putExtra("event_description",event.getDescription());
         i.putExtra("event_address",event.getAddress());
-        i.putExtra("event_addresshint",event.getAddressInfo());
         mContext.startActivity(i);
     }
 }

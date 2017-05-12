@@ -1,15 +1,6 @@
 package mx.unam.ciencias.jcasas.party;
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
-
-import java.io.BufferedReader;
-import java.io.IOError;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Date;
+import mx.unam.ciencias.jcasas.party.Date;
 import java.util.LinkedList;
 
 /**
@@ -22,6 +13,38 @@ import java.util.LinkedList;
 
 public class Event {
 
+    /**
+     * Class for coordinates.
+     */
+    private class Location {
+
+        /* The latitude. */
+        private long latitude;
+        /* The longitude. */
+        private long longitude;
+
+        public Location(long latitude, long longitude) {
+            this.latitude = latitude;
+            this.longitude = longitude;
+        }
+
+        /**
+         * Return the latitude.
+         * @return the latitude.
+         */
+        public long getLatitude() {
+            return latitude;
+        }
+
+        /**
+         * Return the longitude.
+         * @return the longitude.
+         */
+        public long getLongitude() {
+            return longitude;
+        }
+    }
+
     /* The guest's list. */
     private LinkedList<Guest> guests;
     /* Event's name. */
@@ -30,18 +53,40 @@ public class Event {
     private Date date;
     /* Description & info. */
     private String description;
-    /* Address indications. */
-    private String addressInfo;
     /* Address. */
     private String address;
+    /* Location. */
+    private Location location;
+    /* If the guests can invite someone else. */
+    private boolean friendsInvites;
 
     /* Standard constructor. */
-    public Event(String name, long date, String description, String addressInfo, String address) {
+    public Event(String name,
+                 Date date,
+                 String description,
+                 String address,
+                 long latitude,
+                 long longitude,
+                 boolean friendsInvites) {
         this.name = name;
-        this.date = new Date(date);
+        this.date = date;
         this.description = description;
-        this.addressInfo = addressInfo;
         this.address = address;
+        this.location = new Location(latitude, longitude);
+        this.friendsInvites = friendsInvites;
+    }
+
+    /* Constructor without coordinates. */
+    public Event(String name,
+                 Date date,
+                 String description,
+                 String address,
+                 boolean friendsInvites) {
+        this.name = name;
+        this.date = date;
+        this.description = description;
+        this.address = address;
+        this.friendsInvites = friendsInvites;
     }
 
     /**
@@ -75,14 +120,6 @@ public class Event {
     }
 
     /**
-     * Return hints of the address.
-     * @return addressinfo
-     */
-    public String getAddressInfo() {
-        return addressInfo;
-    }
-
-    /**
      * Getter for the address.
      * @return The address.
      */
@@ -98,7 +135,6 @@ public class Event {
         return String.format("Name: %s\n" +
                                 "Date: %s\n" +
                                 "Description: %s\n"+
-                                "Address Info: %s\n"+
-                                "Address: %s",name,description,addressInfo,address);
+                                "Address: %s", name, description, address);
     }
 }
