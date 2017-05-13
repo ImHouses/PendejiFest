@@ -42,6 +42,7 @@
     <string name="new_event_edit_time">Choose a time</string>
     <string name="new_event_edit_description">Description of your event</string>
     <string name="new_event_edit_address">Add your address</string>
+    <string name="new_event_edit_search_location">Search your address</string>
     <!-- Months -->
     <string name="month_1">January</string>
     <string name="month_2">February</string>
