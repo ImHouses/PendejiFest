@@ -1,4 +1,4 @@
-package mx.unam.ciencias.jcasas.party;
+package mx.unam.ciencias.jcasas.model;
 
 /**
  * Created by jcasas on 13/10/16.

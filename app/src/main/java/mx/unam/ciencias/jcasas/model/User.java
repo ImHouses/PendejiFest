@@ -1,4 +1,4 @@
-package mx.unam.ciencias.jcasas.party;
+package mx.unam.ciencias.jcasas.model;
 
 import java.util.LinkedList;
 

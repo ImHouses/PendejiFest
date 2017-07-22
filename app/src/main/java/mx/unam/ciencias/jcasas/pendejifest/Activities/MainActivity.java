@@ -32,7 +32,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
-import mx.unam.ciencias.jcasas.party.Event;
+import mx.unam.ciencias.jcasas.model.Event;
 import mx.unam.ciencias.jcasas.pendejifest.Adapters.EventsAdapter;
 import mx.unam.ciencias.jcasas.pendejifest.R;
 

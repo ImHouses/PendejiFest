@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import java.util.Calendar;
 
-import mx.unam.ciencias.jcasas.party.Date;
+import mx.unam.ciencias.jcasas.model.Date;
 import mx.unam.ciencias.jcasas.pendejifest.R;
 
 public class NewEventActivity extends AppCompatActivity

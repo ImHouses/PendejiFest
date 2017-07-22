@@ -1,6 +1,5 @@
-package mx.unam.ciencias.jcasas.party;
+package mx.unam.ciencias.jcasas.model;
 
-import mx.unam.ciencias.jcasas.party.Date;
 import java.util.LinkedList;
 
 /**

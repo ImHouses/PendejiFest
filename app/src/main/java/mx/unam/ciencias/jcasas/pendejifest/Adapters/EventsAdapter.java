@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import mx.unam.ciencias.jcasas.party.Event;
+import mx.unam.ciencias.jcasas.model.Event;
 import mx.unam.ciencias.jcasas.pendejifest.Activities.EventActivity;
 import mx.unam.ciencias.jcasas.pendejifest.R;
 
