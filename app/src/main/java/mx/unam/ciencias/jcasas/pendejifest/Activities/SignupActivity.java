@@ -4,9 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -34,10 +32,10 @@ import mx.unam.ciencias.jcasas.pendejifest.R;
 
 public class SignupActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private EditText etName;
-    private EditText etMail;
-    private EditText etPass;
-    private Button btSignup;
+    private EditText inputName;
+    private EditText inputMail;
+    private EditText inputPass;
+    private Button buttonSignUp;
     private ProgressDialog progressDialog;
     private SharedPreferences preferences;
     private FirebaseAuth firebaseAuth;
@@ -52,25 +50,25 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         preferences = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
-        buildUI();
+        bindUi();
     }
 
     /**
      * Auxiliar method for building the UI.
      */
-    private void buildUI() {
-        etName = (EditText) findViewById(R.id.editTextNameSignup);
-        etMail = (EditText) findViewById(R.id.editTextEmail);
-        etPass = (EditText) findViewById(R.id.editTextPass);
-        btSignup = (Button) findViewById(R.id.buttonSignup);
-        btSignup.setOnClickListener(this);
+    private void bindUi() {
+        inputName = (EditText) findViewById(R.id.editTextNameSignup);
+        inputMail = (EditText) findViewById(R.id.editTextEmail);
+        inputPass = (EditText) findViewById(R.id.editTextPass);
+        buttonSignUp = (Button) findViewById(R.id.buttonSignup);
+        buttonSignUp.setOnClickListener(this);
         firebaseAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(SignupActivity.this);
     }
 
     @Override
     public void onClick(View v) {
-        if (v == btSignup) {
+        if (v == buttonSignUp) {
             register();
         }
     }
@@ -79,11 +77,11 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
      * Method for registering the user.
      */
     public void register() {
-        name = etName.getText().toString();
-        email = etMail.getText().toString();
-        pass = etPass.getText().toString();
+        name = inputName.getText().toString();
+        email = inputMail.getText().toString();
+        pass = inputPass.getText().toString();
         if (validCredentials(email, pass)) {
-            progressDialog.setMessage("Registering...");
+            progressDialog.setMessage(ActivityUtils.getStringByRes(R.string.signup_progress, this));
             progressDialog.show();
             firebaseAuth.createUserWithEmailAndPassword(email, pass)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -103,7 +101,12 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                         finish();
                     } else {
                         progressDialog.dismiss();
-                        makeAlert("ERROR", "There was an error with, try again").show();
+                        String alertTitle = ActivityUtils
+                                .getStringByRes(R.string.error_title, SignupActivity.this);
+                        String alertMessage = task.getResult().toString();
+                        ActivityUtils
+                                .makeStdAlert(alertTitle, alertMessage, SignupActivity.this)
+                                .show();
                     }
                 }
             });
@@ -136,8 +139,6 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
             }
         });
-
-
     }
 
     /**
@@ -202,7 +203,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     /**
      * Checks whether the email is valid or not.
      * @param email
-     * @return
+     * @return <code>true</code> if the email is correct, <code>false</code> in other case.
      */
     public boolean isValidEmail(String email) {
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
@@ -213,16 +214,14 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         } else return true;
     }
 
-    public AlertDialog makeAlert(String title, String message) {
-        AlertDialog.Builder alb = new AlertDialog.Builder(SignupActivity.this);
-        AlertDialog ad = alb.create();
-        ad.setTitle(title);
-        ad.setMessage(message);
-        return ad;
-    }
+
 
     /**
-     * Save the preferences.
+     * Save the new user data into the {@link SharedPreferences}
+     * @param name
+     * @param email
+     * @param pass
+     * @param photoUrl
      */
     private void saveOnPreferences(String name, String email, String pass, String photoUrl) {
         SharedPreferences.Editor editor = preferences.edit();
@@ -235,6 +234,10 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         editor.apply();
     }
 
+    /**
+     * Update the profile name of the user.
+     * @param user
+     */
     private void updateProfile(FirebaseUser user) {
         if (user != null) {
             SharedPreferences sp = getSharedPreferences("Preferences", Context.MODE_PRIVATE);

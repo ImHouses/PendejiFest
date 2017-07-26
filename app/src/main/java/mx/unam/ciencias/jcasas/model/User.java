@@ -28,7 +28,4 @@ public class User {
         this.pass = pass.hashCode();
         this.userEvents = new LinkedList<>();
     }
-
-
-
 }

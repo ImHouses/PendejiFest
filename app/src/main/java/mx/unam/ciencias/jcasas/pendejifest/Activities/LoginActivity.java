@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,24 +13,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import mx.unam.ciencias.jcasas.pendejifest.R;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String TAG = "";
     private SharedPreferences preferences;
-
     private EditText editTextLogIn;
     private EditText editTextPassword;
     private Button buttonLogIn;
@@ -115,25 +106,27 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         return preferences.contains("email") && preferences.contains("pass");
     }
 
-    private void loginFirebase(String email, String pass) {
-        final String em = email;
-        final String ps = pass;
+    private void loginFirebase(final String email, final String pass) {
         if (validCredentials(email, pass)) {
             firebaseAuth.signInWithEmailAndPassword(email, pass)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()) {
-                                saveOnPreferences(em, ps);
+                                saveOnPreferences(email, pass);
                                 toMain();
                             }
                             else {
-                                makeLocalAlert("There is a problem", "There has been a problem, try again").show();
+                                ActivityUtils
+                                        .makeStdAlert("There is a problem", "There has been a problem, try again", LoginActivity.this)
+                                        .show();
                             }
                         }
                     });
         } else {
-            makeLocalAlert("Your credentials are not valid", "Your email or password are not valid, verify them.").show();
+            ActivityUtils
+                    .makeStdAlert("Your credentials are not valid", "Your email or password are not valid, verify them.", LoginActivity.this)
+                    .show();
         }
     }
 
@@ -151,13 +144,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 startActivity(i);
                 break;
         }
-    }
-
-    public AlertDialog makeLocalAlert(String title, String message) {
-        AlertDialog.Builder alb = new AlertDialog.Builder(LoginActivity.this);
-        AlertDialog ad = alb.create();
-        ad.setTitle(title);
-        ad.setMessage(message);
-        return ad;
     }
 }

@@ -18,15 +18,18 @@
     <string name="event_directionSign">Spot address: </string>
     <string name="event_infoSign">Event info</string>
     <string name="event_directionhowSign">How to get there?</string>
+    <!-- Signup related strings -->
     <string name="signup_hint">Don\'t you have an account? <u>Sign up</u></string>
     <string name="signup_title">Please, fill the following fields</string>
     <string name="signup_email_hint">Enter your Email</string>
     <string name="signup_password_hint">Enter your password</string>
     <string name="signup_name_hint">Enter your name</string>
     <string name="signup_button">Sign up now</string>
+    <string name="signup_progress">Registering...</string>
 
     <!-- Various strings -->
     <string name="dialog_negative_std">Cancel</string>
+    <string name="dialog_positive_std">Accept</string>
     <!-- Error strings -->
     <string name="error_title">Ups!</string>
     <string name="friend_register_error">There has been an error trying to match with your buddy.</string>

@@ -64,13 +64,13 @@ public class MainActivity extends AppCompatActivity
         list = (ListView) findViewById(R.id.list_main);
         eventsAdapter = new EventsAdapter(getApplicationContext(),events);
         reference.getRoot().child("events");
-        buildUI();
+        bindUi();
     }
 
     /**
      * Auxiliar method for building the UI.
      */
-    private void buildUI() {
+    private void bindUi() {
         // Set a Toolbar to replace the ActionBar.
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
